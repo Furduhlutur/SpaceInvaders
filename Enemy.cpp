@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "Enemy.h"
 
-Enemy::Enemy(const Texture& enemy, const Texture& move, float x, float y, sf::Color colour)
+Enemy::Enemy(const Texture& enemy, const Texture& move, float x, float y, const sf::Color colour, const int points)
 {
 	position.x = x;
 	position.y = y;
 
+	this->points = points;
 	this->enemy = enemy;
 	this->move = move;
 
@@ -28,9 +29,14 @@ Sprite Enemy::getSprite()
 	return moveSprite;
 }
 
+int Enemy::getPoints() const
+{
+	return points;
+}
+
 void Enemy::update(Time& time, Clock& clock, RenderWindow& window, const float furthestRight, const float furthestLeft)
 {
-	if (time.asMilliseconds() > 500)
+	if (time.asMilliseconds() > 200)
 	{
 		if ((furthestRight >= 1272 || furthestLeft <= 8) && goDown)
 		{

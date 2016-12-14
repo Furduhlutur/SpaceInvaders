@@ -25,7 +25,7 @@ Game::Game()
 	utilities.initializeEnemies(enemies, enemy1, enemy2, enemy3, enemy1Move, enemy2Move, enemy3Move);
 	utilities.initializeLives(ships, ship);
 
-	font.loadFromFile("Pixeled.ttf");
+	font.loadFromFile("Fonts/Pixeled.ttf");
 
 	score.setFont(font);
 	lives.setFont(font);
@@ -56,6 +56,7 @@ void Game::restart()
 {
 	play = false;
 	points = 0;
+	tries = 3;
 
 	shields.clear();
 	enemies.clear();
@@ -73,8 +74,8 @@ void Game::gameOver(RenderWindow& window)
 
 	if (times == 8)
 	{
-		play = false;
 		isGameOver = false;
+		times = 0;
 	}
 
 	else if (time.asMilliseconds() > 700)
@@ -107,6 +108,7 @@ void Game::nextRound(RenderWindow& window)
 		utilities.initializeEnemies(enemies, enemy1, enemy2, enemy3, enemy1Move, enemy2Move, enemy3Move);
 		isNextRound = false;
 		play = true;
+		times = 0;
 	}
 
 	else if (time.asMilliseconds() > 700)
@@ -184,7 +186,7 @@ void Game::enemyCollision(std::vector<Bullet>& bullets, std::vector<Enemy>& enem
 					deathClock.restart();
 					utilities.addDeath(deaths, enemies[e].getSprite().getPosition(), death, enemies[e].getSprite().getColor());
 
-					points += utilities.addPoints(e);
+					points += enemies[e].getPoints();
 					bullets.erase(bullets.begin() + i);
 					enemies.erase(enemies.begin() + e);
 					drawBullet = false;

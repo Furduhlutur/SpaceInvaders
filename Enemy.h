@@ -18,10 +18,14 @@ private:
 
 	bool drawSprite = true;
 
+	int points;
+
 public:
-	Enemy(const Texture& enemy, const Texture& move, float x, float y, sf::Color colour);
+	Enemy(const Texture& enemy, const Texture& move, float x, float y, const sf::Color colour, const int points);
 
 	Sprite getSprite();
+
+	int getPoints() const;
 
 	void update(Time& time, Clock& clock, RenderWindow& window, const float furthestRight, const float furthestLeft);
 };

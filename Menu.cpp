@@ -32,7 +32,7 @@ Menu::Menu()
 	mothershipSprite.setPosition(465, 520);
 
 	// Font and strings
-	font.loadFromFile("Pixeled.ttf");
+	font.loadFromFile("Fonts/Pixeled.ttf");
 
 	name.setFont(font);
 	instruction.setFont(font);

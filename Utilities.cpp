@@ -6,20 +6,6 @@ Utilities::Utilities()
 
 }
 
-int Utilities::addPoints(const int p)
-{
-	if (p <= 24)
-	{
-		return 30;
-	}
-
-	else if (p <= 48)
-	{
-		return 20;
-	}
-	return 10;
-}
-
 float Utilities::furthestDown(std::vector<Enemy>& enemies)
 {
 	float y = 0;
@@ -70,19 +56,19 @@ void Utilities::initializeEnemies(std::vector<Enemy>& enemies, const Texture& en
 		{
 			if (enemyPosY + (r * 50) < 90)
 			{
-				Enemy enemy(enemy3, enemy3Move, enemyPosX + (e * 70) + 8, enemyPosY + (r * 50), sf::Color(160, 40, 253));
+				Enemy enemy(enemy3, enemy3Move, enemyPosX + (e * 70) + 8, enemyPosY + (r * 50), sf::Color(160, 40, 253), 30);
 				enemies.push_back(enemy);
 			}
 
 			else if (enemyPosY + (r * 50) < 190)
 			{
-				Enemy enemy(enemy2, enemy2Move, enemyPosX + (e * 70), enemyPosY + (r * 50), sf::Color(0, 175, 255));
+				Enemy enemy(enemy2, enemy2Move, enemyPosX + (e * 70), enemyPosY + (r * 50), sf::Color(0, 175, 255), 20);
 				enemies.push_back(enemy);
 			}
 
 			else
 			{
-				Enemy enemy(enemy1, enemy1Move, enemyPosX + (e * 70), enemyPosY + (r * 50), sf::Color(0, 254, 0));
+				Enemy enemy(enemy1, enemy1Move, enemyPosX + (e * 70), enemyPosY + (r * 50), sf::Color(0, 254, 0), 10);
 				enemies.push_back(enemy);
 			}
 		}

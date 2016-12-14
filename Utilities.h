@@ -10,8 +10,6 @@ class Utilities
 public:
 	Utilities();
 
-	int addPoints(const int p);
-
 	float furthestDown(std::vector<Enemy>& enemies);
 
 	float furthestRight(std::vector<Enemy>& enemies);
