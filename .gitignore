@@ -36,3 +36,4 @@ Release/
 /targetver.h
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj.user
