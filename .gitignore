@@ -27,3 +27,12 @@
 *.exe
 *.out
 *.app
+
+# Other
+Debug/
+Release/
+/stdafx.cpp
+/stdafx.h
+/targetver.h
+*.vcxproj
+*.vcxproj.filters
