@@ -5,8 +5,8 @@ using namespace sf;
 
 /*
 TODO LIST:
-1: Figure out how to make enemies shoot
-2: Make it so that the mothership appears at random moments
+1: Make it so that the mothership appears at random moments
+2: Make the enemy shooting mechanism better
 */
 Game::Game()
 {
@@ -56,7 +56,6 @@ void Game::restart()
 {
 	play = false;
 	points = 0;
-	tries = 3;
 
 	shields.clear();
 	enemies.clear();
@@ -80,7 +79,7 @@ void Game::gameOver(RenderWindow& window)
 
 	else if (time.asMilliseconds() > 700)
 	{
-		times++;
+		++times;
 		clock.restart();
 		drawGameOver = !drawGameOver;
 	}
@@ -113,7 +112,7 @@ void Game::nextRound(RenderWindow& window)
 
 	else if (time.asMilliseconds() > 700)
 	{
-		times++;
+		++times;
 		clock.restart();
 		drawNextRound = !drawNextRound;
 	}
@@ -127,19 +126,45 @@ void Game::nextRound(RenderWindow& window)
 void Game::playing(RenderWindow& window, Player& player)
 {
 	window.draw(backgroundSprite);
-	window.draw(player.getSprite());
 	window.draw(score);
 	window.draw(lives);
 	drawDeath(window);
 
+	if (blink)
+	{
+		if (blinkTimes == 8)
+		{
+			blink = false;
+			blinkTimes = 0;
+		}
+
+		else if (blinkTime.asMilliseconds() > 100)
+		{
+			++blinkTimes;
+			blinkClock.restart();
+			drawPlayer = !drawPlayer;
+		}
+
+		if (drawPlayer)
+		{
+			window.draw(player.getSprite());
+		}
+	}
+
+	else
+	{
+		window.draw(player.getSprite());
+	}
+
 	if (bullets.size())
 	{
-		enemyCollision(bullets, enemies, shields, window, points);
+		enemyOrShieldCollision(window);
 	}
 
 	for (auto& e : enemies)
 	{
 		e.update(time, clock, window, furthestRight, furthestLeft);
+		e.shoot(enemies, enemyBullets);
 	}
 
 	for (auto& c : shields)
@@ -151,12 +176,15 @@ void Game::playing(RenderWindow& window, Player& player)
 	{
 		window.draw(x);
 	}
+
+	playerOrShieldCollision(window, player);
 }
 
 void Game::updateGame()
 {
 	time = clock.getElapsedTime();
 	deathTime = deathClock.getElapsedTime();
+	blinkTime = blinkClock.getElapsedTime();
 
 	std::stringstream s;
 	s << points;
@@ -166,9 +194,53 @@ void Game::updateGame()
 	furthestLeft = utilities.furthestLeft(enemies);
 }
 
-void Game::enemyCollision(std::vector<Bullet>& bullets, std::vector<Enemy>& enemies, std::vector<RectangleShape>& shields, RenderWindow& window, int& points)
+void Game::playerOrShieldCollision(RenderWindow& window, Player& player)
+{
+	bool drawBullet = true;;
+
+	for (int eb = 0; eb < enemyBullets.size(); ++eb)
+	{
+		enemyBullets[eb].update();
+
+		if (enemyBullets[eb].getPosition().intersects(player.getSprite().getGlobalBounds()))
+		{
+			ships.erase(ships.begin() + ships.size() - 1);
+			enemyBullets.erase(enemyBullets.begin() + eb);
+			blink = true;
+			drawBullet = false;
+		}
+
+		else if (!enemyBullets[eb].onScreen())
+		{
+			enemyBullets.erase(enemyBullets.begin() + eb);
+			drawBullet = false;
+		}
+
+		else if (drawBullet)
+		{
+			for (size_t s = 0; s < shields.size(); ++s)
+			{
+				if (enemyBullets[eb].getPosition().intersects(shields[s].getGlobalBounds()))
+				{
+					enemyBullets.erase(enemyBullets.begin() + eb);
+					shields.erase(shields.begin() + s);
+					drawBullet = false;
+					break;
+				}
+			}
+		}
+
+		if (drawBullet)
+		{
+			window.draw(enemyBullets[eb].getShape());
+		}
+	}
+}
+
+void Game::enemyOrShieldCollision(RenderWindow& window)
 {
 	bool drawBullet = true;
+
 	for (size_t i = 0; i < bullets.size(); ++i)
 	{
 		if (!bullets[i].onScreen())
@@ -187,8 +259,10 @@ void Game::enemyCollision(std::vector<Bullet>& bullets, std::vector<Enemy>& enem
 					utilities.addDeath(deaths, enemies[e].getSprite().getPosition(), death, enemies[e].getSprite().getColor());
 
 					points += enemies[e].getPoints();
+
 					bullets.erase(bullets.begin() + i);
 					enemies.erase(enemies.begin() + e);
+
 					drawBullet = false;
 					break;
 				}
@@ -281,21 +355,13 @@ void Game::run()
 		{
 			Vector2f pos = player.getPosition();
 			Bullet bullet(pos.x + 16, pos.y - 15);
-			if (!bullets.empty())
-			{
-				if (bullets[bullets.size() - 1].getPosition().top < 250)
-				{
-					bullets.push_back(bullet);
-				}
-			}
-
-			else
+			if (bullets.empty())
 			{
 				bullets.push_back(bullet);
 			}
 		}
 
-		if (utilities.furthestDown(enemies) > 572)
+		if (utilities.furthestDown(enemies) > 572 || shields.empty() || ships.empty())
 		{
 			isGameOver = true;
 			play = false;

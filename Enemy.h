@@ -1,12 +1,13 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "EnemyBullet.h"
 
 using namespace sf;
 
 class Enemy
 {
 private:
-	float moveX = 20;
+	float moveX = 10;
 
 	bool goDown = true;
 
@@ -26,6 +27,8 @@ public:
 	Sprite getSprite();
 
 	int getPoints() const;
+
+	void shoot(std::vector<Enemy>& enemies, std::vector<EnemyBullet>& enemyBullets);
 
 	void update(Time& time, Clock& clock, RenderWindow& window, const float furthestRight, const float furthestLeft);
 };

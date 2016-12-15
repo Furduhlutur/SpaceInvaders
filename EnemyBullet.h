@@ -1,19 +1,20 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include "Bullet.h"
 
 using namespace sf;
 
-class Bullet
+class EnemyBullet
 {
-protected:
-	float bulletSpeed = 6.0f;
+private:
+	float enemyBulletSpeed = -5.0f;
 
-	RectangleShape bulletShape;
+	RectangleShape enemyBulletShape;
 
 	Vector2f position;
 
 public:
-	Bullet(float startX, float startY);
+	EnemyBullet(float startX, float startY);
 
 	RectangleShape getShape();
 

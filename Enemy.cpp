@@ -34,6 +34,19 @@ int Enemy::getPoints() const
 	return points;
 }
 
+void Enemy::shoot(std::vector<Enemy>& enemies, std::vector<EnemyBullet>& enemyBullets)
+{
+	int randInt;
+	randInt = rand() % enemies.size();
+	Enemy chosenOne = enemies[randInt];
+
+	if (enemyBullets.size() < 1)
+	{
+		EnemyBullet chosenOnesBullet(chosenOne.getSprite().getGlobalBounds().left + 24, chosenOne.getSprite().getGlobalBounds().top + 32);
+		enemyBullets.push_back(chosenOnesBullet);
+	}
+}
+
 void Enemy::update(Time& time, Clock& clock, RenderWindow& window, const float furthestRight, const float furthestLeft)
 {
 	if (time.asMilliseconds() > 200)

@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "Enemy.h"
 #include "Utilities.h"
+#include "EnemyBullet.h"
 
 class Game
 {
@@ -21,8 +22,8 @@ private:
 	Font font;
 
 	Utilities utilities;
-	Clock clock, deathClock;
-	Time time, deathTime;
+	Clock clock, deathClock, blinkClock;
+	Time time, deathTime, blinkTime;
 	Menu menu;
 
 	const float WINDOW_WIDTH = 1280;
@@ -34,14 +35,17 @@ private:
 	std::vector<Sprite> ships;
 	std::vector<Sprite> deaths;
 	std::vector<Enemy> enemies;
+	std::vector<EnemyBullet> enemyBullets;
 	std::vector<RectangleShape> shields;
 
 	float furthestRight;
 	float furthestLeft;
 
+	bool blink = false;
 	bool play = false;
 	bool update = true;
 	bool drawSprite = true;
+	bool drawPlayer = false;
 	bool isGameOver = false;
 	bool drawGameOver = false;
 	bool isNextRound = false;
@@ -49,7 +53,7 @@ private:
 
 	int times = 0;
 	int points = 0;
-	int tries = 3;
+	int blinkTimes = 0;
 
 public:
 	Game();
@@ -68,6 +72,8 @@ public:
 
 	void drawDeath(RenderWindow& window);
 
-	void enemyCollision(std::vector<Bullet>& bullets, std::vector<Enemy>& enemies, std::vector<RectangleShape>& shields, RenderWindow& window, int& points);
+	void enemyOrShieldCollision(RenderWindow& window);
+
+	void playerOrShieldCollision(RenderWindow& window, Player& player);
 };
 
