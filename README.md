@@ -1,5 +1,6 @@
 # SpaceInvaders
-A clone of the popular space shooter game Space Invaders
+A clone of the popular space shooter game Space Invaders.
+Note: This game is extremely badly optimized and hogs the CPU
 
 # Gameplay
 Your task is to shoot the Space Invaders, if you succeed and destroy all of them you will go to the next round.
