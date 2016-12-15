@@ -1,5 +1,5 @@
 # SpaceInvaders
-A clone of the popular space shooter game Space Invaders.
+A clone of the popular space shooter game Space Invaders. <br/>
 Note: This game is extremely badly optimized and hogs the CPU
 
 # Gameplay
