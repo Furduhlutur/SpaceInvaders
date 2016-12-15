@@ -3,7 +3,7 @@ A clone of the popular space shooter game Space Invaders
 
 # Gameplay
 Your task is to shoot the Space Invaders, if you succeed and destroy all of them you will go to the next round.
-However if they manage to shoot you three times or they manage to get to your shields, it is game over!
+However if they manage to shoot you three times, destroy your shields or they manage to get to your shields, it is game over!
 
 Upper right corner tells you your score. <br/>
 Upper left corner tells you how many lives you have left. <br/>
