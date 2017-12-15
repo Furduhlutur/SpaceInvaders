@@ -2,6 +2,8 @@
 A clone of the popular space shooter game Space Invaders. <br/>
 Note: This game is extremely badly optimized and hogs the CPU
 
+![spaceinvaders](https://user-images.githubusercontent.com/24224429/34059142-a3a713d8-e1d5-11e7-995e-f4c54b242fba.png)
+
 # Gameplay
 Your task is to shoot the Space Invaders, if you succeed and destroy all of them you will go to the next round.
 However if they manage to shoot you three times, destroy your shields or they manage to get to your shields, it is game over!
@@ -23,7 +25,7 @@ The four green squares are your shields. <br/>
 
 # Resources
 This Space Invaders clone is heavily inspired by this Space Invaders clone made by Lee James Robinson:
-http://www.leejamesrobinson.com/space-invaders.html
+https://github.com/leerob/Space_Invaders
 
 All graphics are based on this sprite sheet except the player ship which is based on Robinson's clone:
 http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373
